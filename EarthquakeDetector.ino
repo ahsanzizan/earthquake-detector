@@ -3,15 +3,16 @@
 
 MPU6050 mpu;
 
-const int buzzerPin = 8;
-const float threshold = 1.5; // Adjust this value according to the sensitivity you need
+const int ledPin = 8;
+// Adjustable value
+const float threshold = 1.5;
 
 void setup() {
   Serial.begin(9600);
   Wire.begin();
   mpu.initialize();
 
-  pinMode(buzzerPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
@@ -24,14 +25,14 @@ void loop() {
   float gY = ay / 16384.0;
   float gZ = az / 16384.0;
 
-  // Calculate total acceleration vector magnitude
+  // Total acceleration vector magnitude
   float totalAcceleration = sqrt(gX * gX + gY * gY + gZ * gZ);
 
   // Check if the total acceleration exceeds the threshold
   if (totalAcceleration > threshold) {
-    digitalWrite(buzzerPin, HIGH); // Turn on the buzzer/LED
+    digitalWrite(ledPin, HIGH); // Turn on the LED
   } else {
-    digitalWrite(buzzerPin, LOW); // Turn off the buzzer/LED
+    digitalWrite(ledPin, LOW); // Turn off the LED
   }
 
   // Print values to Serial Monitor for debugging
